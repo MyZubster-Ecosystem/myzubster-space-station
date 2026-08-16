@@ -5,3 +5,4 @@ requests==2.31.0
 pymongo==4.5.0
 python-socketio==5.9.0
 eventlet==0.33.3
+pytest==8.4.1
