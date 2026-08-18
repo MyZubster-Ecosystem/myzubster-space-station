@@ -1,145 +1,81 @@
-# 🚀 MyZubster Space Station
+# MyZubster Space Station
 
-**Open-source infrastructure for autonomous robotics, IoT, telemetry and space-system simulation.**
+Software MVP and simulation track for robotics, telemetry, mission workflows and Gateway integration inside the MyZubster ecosystem.
 
----
+## Status
 
-## 🌟 Vision
+**Software MVP / active development.** This repository is a software vertical-slice project. It does **not** imply that MyZubster operates a physical or orbital space station.
 
-Build a modular open-source architecture that can evolve from Earth-based robotics and IoT applications toward future space robotics experiments and orbital infrastructure.
+The target vertical slice is:
 
----
+```text
+Mission -> Robot/simulator -> Telemetry -> Persistence/Audit -> API -> Dashboard -> Gateway
+```
 
-## 🛠️ Current MVP
+Simulation should be used before physical robot integration.
 
-| Component | Description | Status |
-|-----------|-------------|--------|
-| **Station Core** | Main application server | ✅ |
-| **Robot Registry** | Robot management and status | ✅ |
-| **Mission API** | Create and manage missions | ✅ |
-| **Telemetry** | Real-time data streaming | 🚧 |
-| **Gateway** | API Gateway | 🚧 |
-| **Eva Ioni Simulator** | Robot simulation | 🚧 |
-| **Dashboard** | Web interface | 🚧 |
-| **MYZ/XMR Payments** | Blockchain payments | 🚧 |
+## Components
 
----
+| Component | Purpose | Positioning |
+|---|---|---|
+| Station Core | mission/robot application services | MVP track |
+| Robot Registry | robot/device identity and status | MVP track |
+| Mission API | mission lifecycle | MVP track |
+| Telemetry | ingestion, validation and retrieval | development |
+| Gateway integration | connection to MyZubster Gateway | development |
+| EVA IONI simulator | reproducible telemetry source | development |
+| Dashboard | operator/user interface | development |
+| Payment/reward integration | bounty/settlement boundary | gated; not automatically blockchain-settled |
 
-## 🏗️ Architecture
+Verify the source tree and automated tests before treating an item as complete.
 
-```mermaid
-graph TB
-    A[Dashboard] --> B[Gateway]
-    B --> C[Station Core]
-    C --> D[Robot Registry]
-    C --> E[Mission API]
-    C --> F[Telemetry]
-    C --> G[Blockchain Payments]
-    
-    H[Eva Ioni Simulator] --> C
-    I[Real Robots] --> C
-📁 Project Structure
-text
+## Development
 
-myzubster-space-station/
-├── station-core/           # Main application
-│   ├── app.py             # Flask server
-│   ├── missions/          # Mission logic
-│   ├── telemetry/         # Telemetry handling
-│   ├── robots/            # Robot management
-│   └── api/               # API endpoints
-├── gateway/               # API Gateway
-├── simulator/             # Robot simulators
-├── dashboard/             # Web dashboard
-├── docs/                  # Documentation
-├── README.md
-├── .gitignore
-└── LICENSE
+The repository may contain Python and Node.js components. Follow the dependency files in the current branch.
 
-🚀 Quick Start
-Prerequisites
+Typical station-core setup where applicable:
 
-    Python 3.9+
-
-    Node.js 18+
-
-    MongoDB
-
-    Git
-
-Installation
-bash
-
-# Clone the repository
-git clone https://github.com/MyZubster-Ecosystem/myzubster-space-station.git
-cd myzubster-space-station
-
-# Setup Python environment
-cd station-core
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install flask flask-cors
+pip install -r requirements.txt
+```
 
-# Run the core
-python app.py
+Prefer synthetic fixtures and simulator telemetry for local validation.
 
-Test the API
-bash
+## Safety
 
-# Health check
-curl http://localhost:8000/api/health
+- Simulator-first for command/telemetry workflows.
+- Physical robot commands require authentication, bounded parameters and fail-safe behavior.
+- No mission/bounty should require unauthorized access to restricted infrastructure or collection of sensitive operational details.
+- Do not store credentials, private keys or wallet seeds in source or telemetry logs.
 
-# List robots
-curl http://localhost:8000/api/robots
+## Bounty program
 
-# Create a mission
-curl -X POST http://localhost:8000/api/missions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "type": "environmental_scan",
-    "target": "green-module",
-    "robot_id": "eva-ioni-001"
-  }'
+Space Station work is tracked through GitHub issues, including software bounties for simulator, telemetry, dashboard and integration tasks.
 
-📡 API Endpoints
-Station Core (Port 8000)
-Method	Endpoint	Description
-GET	/api/health	Health check
-GET	/api/robots	List all robots
-GET	/api/missions	List all missions
-POST	/api/missions	Create a mission
-POST	/api/missions/:id/complete	Complete a mission
-🤝 Contributing
+The canonical policy is:
 
-    Claim a bounty from the issues list
+- [MyZubster Bounty System](https://github.com/MyZubster-Ecosystem/myzubster/blob/main/BOUNTIES.md)
+- [Ecosystem Architecture](https://github.com/MyZubster-Ecosystem/myzubster/blob/main/docs/ECOSYSTEM.md)
 
-    Fork the repository
+Historical `250 MYZ` bounty definitions represent project-declared work rewards. MYZ in the current core platform is an internal reward/accounting ledger, and issue closure/merge does not prove external settlement.
 
-    Create your feature branch (git checkout -b feat/amazing-feature)
+Any XMR/token payment component remains separate and requires independently verifiable settlement evidence before `PAID`.
 
-    Commit your changes (git commit -m 'Add amazing feature')
+See `BOUNTIES.md` for this repository's local scope.
 
-    Push to the branch (git push origin feat/amazing-feature)
+## Related repositories
 
-    Open a Pull Request
+- [myzubster](https://github.com/MyZubster-Ecosystem/myzubster) — canonical core/bounty rules
+- [EVA-IONI](https://github.com/MyZubster-Ecosystem/EVA-IONI) — simulator/robotics track
+- [MyZubster-Robot](https://github.com/MyZubster-Ecosystem/MyZubster-Robot) — robotics track
+- [MyZubsterGateway](https://github.com/MyZubster-Ecosystem/MyZubsterGateway) — Gateway/settlement boundary
 
-💰 Bounty Program
-Bounty	Description	Reward
-#001	Eva Ioni Simulator	250 MYZ
-#002	Telemetry System	250 MYZ
-#003	Dashboard UI	250 MYZ
-#004	Gateway API	250 MYZ
-#005	MYZ/XMR Payments	250 MYZ
-📄 License
+## Contributing
 
-MIT © MyZubster Ecosystem
-🌐 Links
+Use open issues, add reproducible tests and explicitly distinguish simulator evidence from physical-hardware validation.
 
-    GitHub: MyZubster-Ecosystem
+## License
 
-    Gateway: https://myzubstergateway-1.onrender.com
-
-    Bounty Board: https://myzubstergateway-1.onrender.com/bounty
-
-🚀 Building the future of space robotics, one commit at a time!
-text
+See `LICENSE` for authoritative terms.
