@@ -1,0 +1,23 @@
+name: Identity Card Security CI
+on:
+  pull_request:
+    paths:
+      - 'identity/**'
+      - 'tests/test_identity_card*.js'
+      - '.github/workflows/identity-card-ci.yml'
+  push:
+    branches:
+      - security/harden-pr-72
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node tests/test_identity_card.js
+      - run: node tests/test_identity_card_security.js
