@@ -1,0 +1,25 @@
+name: MRV Privacy Security CI
+on:
+  pull_request:
+    paths:
+      - 'privacy/**'
+      - 'tests/test_mrv_privacy*.js'
+      - '.github/workflows/mrv-privacy-ci.yml'
+  push:
+    branches:
+      - security/harden-pr-76
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      MRV_PSEUDONYM_KEY: ci-only-test-key-32-characters-minimum
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node tests/test_mrv_privacy.js
+      - run: node tests/test_mrv_privacy_security.js
