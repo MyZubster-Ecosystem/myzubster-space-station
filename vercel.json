@@ -1,6 +1,10 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.py/api/$1" },
+    { "source": "/api/health", "destination": "/api/index.py/health" },
+    { "source": "/api/robots", "destination": "/api/index.py/robots" },
+    { "source": "/api/missions", "destination": "/api/index.py/missions" },
+    { "source": "/api/telemetry", "destination": "/api/index.py/telemetry" },
+    { "source": "/api/payments", "destination": "/api/index.py/payments" },
     { "source": "/", "destination": "/dashboard/index.html" }
   ]
 }
