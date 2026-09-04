@@ -1,0 +1,11 @@
+const assert = require('assert');
+const MrvPrivacySanitizer = require('../privacy/mrv_privacy_sanitizer');
+assert.throws(() => new MrvPrivacySanitizer({ pseudonymKey: 'short' }), /32 characters/);
+const sanitizer = new MrvPrivacySanitizer({ pseudonymKey: 'test-key-with-at-least-32-characters' });
+const first = sanitizer.sanitizeForMrvExport({ operatorEmail: 'user@example.com', unexpectedSecret: 'secret', ph: 7 });
+const second = sanitizer.sanitizeForMrvExport({ operatorEmail: 'user@example.com' });
+assert.strictEqual(first.safeExport.operationalMetadata.operatorEmail, second.safeExport.operationalMetadata.operatorEmail);
+assert(!('unexpectedSecret' in first.safeExport.operationalMetadata));
+assert.strictEqual(first.redactedAuditLog.find(x => x.field === 'unexpectedSecret').action, 'STRIPPED');
+assert.match(first.safeExport.exportId, /^MRV_SAFE_[0-9a-f-]{36}$/);
+console.log('MRV privacy security tests passed');
